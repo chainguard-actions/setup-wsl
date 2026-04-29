@@ -1,6 +1,12 @@
 # Vampire/setup-wsl
 
-Hardened GitHub Action by [Chainguard](https://www.chainguard.dev).
+Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/Vampire/setup-wsl](https://github.com/Vampire/setup-wsl).
+
+## Versions
+
+| Version | Tag | Upstream commit |
+|---------|-----|-----------------|
+| v6.0.0 | [`v6.0.0`](https://github.com/chainguard-actions/setup-wsl/tree/v6.0.0) | — |
 
 ## Privacy
 
