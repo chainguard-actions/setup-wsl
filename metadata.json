@@ -1,5 +1,6 @@
 {
   "owner": "Vampire",
   "name": "setup-wsl",
-  "visibility": ""
+  "visibility": "internal",
+  "description": "A GitHub action to install and setup a Linux distribution for the Windows Subsystem for Linux (WSL)"
 }
