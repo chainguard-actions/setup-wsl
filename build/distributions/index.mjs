@@ -83973,7 +83973,7 @@ module.exports = class PendingInterceptorsFormatter {
         Origin: origin,
         Path: path,
         'Status code': statusCode,
-        Persistent: persist ? 'âœ…' : 'ï¿½?ï¿½',
+        Persistent: persist ? 'âœ…' : 'â?Œ',
         Invocations: timesInvoked,
         Remaining: persist ? Infinity : times - timesInvoked
       }))
