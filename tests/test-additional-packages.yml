@@ -1,4 +1,4 @@
-name: Test WSL additional packages
+name: Test WSL setup with additional packages
 on:
   workflow_dispatch:
 jobs:
@@ -12,6 +12,7 @@ jobs:
           distribution: Ubuntu-22.04
           use-cache: 'false'
           additional-packages: curl wget git
+          update: 'false'
         continue-on-error: true
       - name: Assert action ran
         run: |

@@ -1,4 +1,4 @@
-name: Test WSL shell configuration
+name: Test WSL setup with shell configuration
 on:
   workflow_dispatch:
 jobs:

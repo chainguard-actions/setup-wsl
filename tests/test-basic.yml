@@ -11,8 +11,9 @@ jobs:
         with:
           distribution: Ubuntu-22.04
           use-cache: 'false'
+          update: 'false'
         continue-on-error: true
       - name: Assert action ran
         run: |
           echo "outcome: ${{ steps.action.outcome }}"
-          echo "PASS: action step completed (WSL not available on Linux runners, continue-on-error expected)"
+          echo "PASS: action step completed (WSL may not be available in this environment)"
