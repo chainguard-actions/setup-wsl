@@ -9,6 +9,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
 | v6.0.0 | [`v6.0.0`](https://github.com/chainguard-actions/Vampire-setup-wsl/tree/v6.0.0) | — |
+| v7.0.0 | [`v7.0.0`](https://github.com/chainguard-actions/Vampire-setup-wsl/tree/v7.0.0) | [`d1da7f2`](https://github.com/Vampire/setup-wsl/commit/d1da7f2c0322a5ee4f24975344f67fc0f5baf364) |
 
 ## Privacy
 
