@@ -1,6 +1,6 @@
 # Vampire/setup-wsl
 
-A GitHub action to install and setup a Linux distribution for the Windows Subsystem for Linux (WSL)
+WSL Setup GitHub Action
 
 Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/Vampire/setup-wsl](https://github.com/Vampire/setup-wsl).
 
