@@ -1,4 +1,4 @@
-name: Test wsl-shell-command and wsl-shell-user
+name: Test wsl-conf and additional-packages
 on:
   workflow_dispatch:
 jobs:
@@ -11,8 +11,10 @@ jobs:
         with:
           distribution: Ubuntu-22.04
           use-cache: 'false'
-          wsl-shell-user: root
-          wsl-shell-command: bash --noprofile --norc -euo pipefail
+          wsl-conf: |
+            [automount]
+            enabled = true
+          additional-packages: git curl
         continue-on-error: true
       - name: Assert action ran
         run: |

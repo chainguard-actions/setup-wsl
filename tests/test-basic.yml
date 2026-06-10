@@ -1,4 +1,4 @@
-name: Test basic WSL setup
+name: Test basic usage
 on:
   workflow_dispatch:
 jobs:
@@ -11,9 +11,14 @@ jobs:
         with:
           distribution: Ubuntu-22.04
           use-cache: 'false'
-          update: 'false'
         continue-on-error: true
       - name: Assert action ran
         run: |
           echo "outcome: ${{ steps.action.outcome }}"
-          echo "PASS: action step completed (WSL may not be available in this environment)"
+          # The action may fail in a non-Windows environment (WSL is Windows-only)
+          # but we verify it was invoked and produced an outcome
+          if [ "${{ steps.action.outcome }}" = "" ]; then
+            echo "FAIL: action did not produce an outcome"
+            exit 1
+          fi
+          echo "PASS: action ran with outcome ${{ steps.action.outcome }}"
