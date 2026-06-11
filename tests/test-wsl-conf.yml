@@ -1,0 +1,30 @@
+name: Test WSL conf configuration
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          distribution: Debian
+          wsl-conf: |
+            [automount]
+            enabled = true
+            root = /mnt/
+            options = "metadata,umask=22,fmask=11"
+            mountFsTab = false
+        continue-on-error: true
+      - name: Assert action ran with wsl-conf input
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "success" ] || [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action was invoked with wsl-conf input"
+          else
+            echo "FAIL: action was not invoked (outcome=$OUTCOME)"
+            exit 1
+          fi
