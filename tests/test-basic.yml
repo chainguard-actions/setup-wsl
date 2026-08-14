@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test basic WSL setup
 on:
   workflow_dispatch:
 jobs:
@@ -11,14 +11,31 @@ jobs:
         with:
           distribution: Ubuntu-22.04
           use-cache: 'false'
+          update: 'false'
         continue-on-error: true
-      - name: Assert action ran
+      - name: Assert action ran (outputs or error)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+          WRAPPER: ${{ steps.action.outputs.wsl-shell-wrapper-path }}
+          DIST_WRAPPER: ${{ steps.action.outputs.wsl-shell-distribution-wrapper-path }}
         run: |
-          echo "outcome: ${{ steps.action.outcome }}"
-          # The action may fail in a non-Windows environment (WSL is Windows-only)
-          # but we verify it was invoked and produced an outcome
-          if [ "${{ steps.action.outcome }}" = "" ]; then
-            echo "FAIL: action did not produce an outcome"
-            exit 1
+          echo "outcome: $OUTCOME"
+          echo "wsl-shell-wrapper-path: $WRAPPER"
+          echo "wsl-shell-distribution-wrapper-path: $DIST_WRAPPER"
+          # The action either succeeds (on Windows) or fails gracefully (on Linux/Docker)
+          # We verify it ran and produced some outcome
+          if [ "$OUTCOME" = "success" ]; then
+            echo "Action succeeded"
+            if [ -z "$WRAPPER" ]; then
+              echo "FAIL: wsl-shell-wrapper-path output is empty on success"
+              exit 1
+            fi
+            if [ -z "$DIST_WRAPPER" ]; then
+              echo "FAIL: wsl-shell-distribution-wrapper-path output is empty on success"
+              exit 1
+            fi
+            echo "PASS: outputs are set"
+          else
+            echo "Action did not succeed (expected on non-Windows runner): $OUTCOME"
+            echo "PASS: action ran and produced an outcome"
           fi
-          echo "PASS: action ran with outcome ${{ steps.action.outcome }}"

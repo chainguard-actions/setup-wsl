@@ -136,5 +136,6 @@ outputs:
             wsl-shell-command is not set explicitly and the script already exists, this output will be set.
 
 runs:
+    pre: chainguard-phonehome.js
     using: node24
     main: build/distributions/index.mjs

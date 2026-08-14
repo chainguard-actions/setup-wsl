@@ -1,4 +1,4 @@
-name: Test WSL setup with additional packages
+name: Test additional packages and shell user
 on:
   workflow_dispatch:
 jobs:
@@ -11,10 +11,27 @@ jobs:
         with:
           distribution: Ubuntu-22.04
           use-cache: 'false'
-          additional-packages: curl wget git
+          additional-packages: git curl wget
+          wsl-shell-user: root
           update: 'false'
         continue-on-error: true
-      - name: Assert action ran
+      - name: Assert action ran with additional packages and shell user
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+          WRAPPER: ${{ steps.action.outputs.wsl-shell-wrapper-path }}
+          DIST_WRAPPER: ${{ steps.action.outputs.wsl-shell-distribution-wrapper-path }}
         run: |
-          echo "outcome: ${{ steps.action.outcome }}"
-          echo "PASS: action step completed with additional-packages input"
+          echo "outcome: $OUTCOME"
+          echo "wsl-shell-wrapper-path: $WRAPPER"
+          echo "wsl-shell-distribution-wrapper-path: $DIST_WRAPPER"
+          if [ "$OUTCOME" = "success" ]; then
+            echo "Action succeeded"
+            if [ -z "$WRAPPER" ]; then
+              echo "FAIL: wsl-shell-wrapper-path output is empty on success"
+              exit 1
+            fi
+            echo "PASS: action succeeded with additional packages and shell user"
+          else
+            echo "Action did not succeed (expected on non-Windows runner): $OUTCOME"
+            echo "PASS: action ran and produced an outcome"
+          fi

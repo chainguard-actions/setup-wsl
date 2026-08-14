@@ -1,0 +1,9 @@
+{
+  "status": "self_contained",
+  "entries": [
+    {
+      "path": "build/distributions/index.mjs",
+      "status": "self_contained"
+    }
+  ]
+}

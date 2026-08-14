@@ -1,4 +1,4 @@
-name: Test WSL setup with wsl-conf
+name: Test wsl-conf configuration
 on:
   workflow_dispatch:
 jobs:
@@ -9,15 +9,34 @@ jobs:
       - id: action
         uses: .
         with:
-          distribution: Ubuntu-22.04
+          distribution: Debian-12
           use-cache: 'false'
           wsl-conf: |
             [automount]
             enabled = true
+            root = /mnt/
+            options = "metadata,umask=22,fmask=11"
+            mountFsTab = false
+
             [network]
             generateHosts = true
+            generateResolvConf = true
         continue-on-error: true
-      - name: Assert action ran
+      - name: Assert action ran with wsl-conf
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+          WRAPPER: ${{ steps.action.outputs.wsl-shell-wrapper-path }}
         run: |
-          echo "outcome: ${{ steps.action.outcome }}"
-          echo "PASS: action step completed with wsl-conf input"
+          echo "outcome: $OUTCOME"
+          echo "wsl-shell-wrapper-path: $WRAPPER"
+          if [ "$OUTCOME" = "success" ]; then
+            echo "Action succeeded"
+            if [ -z "$WRAPPER" ]; then
+              echo "FAIL: wsl-shell-wrapper-path output is empty on success"
+              exit 1
+            fi
+            echo "PASS: action succeeded with wsl-conf"
+          else
+            echo "Action did not succeed (expected on non-Windows runner): $OUTCOME"
+            echo "PASS: action ran and produced an outcome"
+          fi
